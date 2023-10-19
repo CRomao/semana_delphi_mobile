@@ -1,0 +1,52 @@
+object ViewAlunoSelecao: TViewAlunoSelecao
+  Left = 0
+  Top = 0
+  Caption = 'Selecionar Aluno'
+  ClientHeight = 480
+  ClientWidth = 463
+  Fill.Kind = Solid
+  Position = MainFormCenter
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnShow = FormShow
+  DesignerMasterStyle = 0
+  object rctToolBar: TRectangle
+    Align = Top
+    Fill.Color = claWhite
+    Sides = [Bottom]
+    Size.Width = 463.000000000000000000
+    Size.Height = 50.000000000000000000
+    Size.PlatformDefault = False
+    Stroke.Color = xFFDBDBDB
+    object lblTituloSelecao: TLabel
+      Align = Contents
+      StyledSettings = [Family, Style]
+      Size.Width = 463.000000000000000000
+      Size.Height = 50.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 14.000000000000000000
+      TextSettings.FontColor = xFF6A5AE0
+      TextSettings.HorzAlign = Center
+      Text = 'Selecione o Aluno'
+      TabOrder = 3
+    end
+  end
+  object ltvAluno: TListView
+    ItemAppearanceClassName = 'TListItemAppearance'
+    ItemEditAppearanceClassName = 'TListItemShowCheckAppearance'
+    HeaderAppearanceClassName = 'TListHeaderObjects'
+    FooterAppearanceClassName = 'TListHeaderObjects'
+    Align = Client
+    Size.Width = 463.000000000000000000
+    Size.Height = 430.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    ItemAppearance.ItemHeight = 60
+    ItemAppearanceObjects.ItemObjects.Text.Font.Size = 14.000000000000000000
+    ItemAppearanceObjects.ItemObjects.Text.TextColor = xFF5E5E5E
+    CanSwipeDelete = False
+    OnItemClick = ltvAlunoItemClick
+    ShowSelection = False
+  end
+end
