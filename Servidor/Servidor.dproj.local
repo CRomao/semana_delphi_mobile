@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2023/08/16 22:57:53.000.744,=C:\Users\Romao\Documents\Embarcadero\Studio\Projects\Unit3.pas</Transaction>
+    <Transaction>2023/08/26 23:19:33.000.192,=C:\Users\Romao\Documents\Embarcadero\Studio\Projects\Unit3.pas</Transaction>
+    <Transaction>2023/08/30 18:46:57.000.889,=C:\Users\Romao\Documents\Embarcadero\Studio\Projects\Unit3.pas</Transaction>
+    <Transaction>2023/10/08 16:14:48.000.598,=C:\Users\Romao\Documents\Embarcadero\Studio\Projects\Unit3.pas</Transaction>
+    <Transaction>2023/10/13 20:42:59.000.957,=C:\Users\Romao\Documents\Embarcadero\Studio\Projects\Unit3.pas</Transaction>
+    <Transaction>2023/10/21 16:28:24.000.975,=C:\Users\Romao\Documents\Embarcadero\Studio\Projects\Unit3.pas</Transaction>
+    <Transaction>2023/10/21 16:28:54.000.083,C:\Users\Romao\Documents\Embarcadero\Studio\Projects\Unit3.fmx=D:\projetos-delphi\99_CODERS\semana_delphi_mobile\Servidor\view\View.Principal.fmx</Transaction>
+    <Transaction>2023/10/21 16:28:54.000.083,C:\Users\Romao\Documents\Embarcadero\Studio\Projects\Unit3.pas=D:\projetos-delphi\99_CODERS\semana_delphi_mobile\Servidor\view\View.Principal.pas</Transaction>
+    <Transaction>2023/10/21 16:29:09.000.038,C:\Users\Romao\Documents\Embarcadero\Studio\Projects\Project3.dproj=D:\projetos-delphi\99_CODERS\semana_delphi_mobile\Servidor\Servidor.dproj</Transaction>
+    <Transaction>2023/10/21 16:58:29.000.633,=D:\projetos-delphi\99_CODERS\semana_delphi_mobile\Servidor\Unit1.pas</Transaction>
+    <Transaction>2023/10/21 16:58:39.000.707,D:\projetos-delphi\99_CODERS\semana_delphi_mobile\Servidor\Unit1.pas=D:\projetos-delphi\99_CODERS\semana_delphi_mobile\Servidor\controllers\Controllers.Global.pas</Transaction>
+    <Transaction>2023/10/21 17:03:25.000.995,=D:\projetos-delphi\99_CODERS\semana_delphi_mobile\Servidor\Unit1.pas</Transaction>
+    <Transaction>2023/10/21 17:03:47.000.232,D:\projetos-delphi\99_CODERS\semana_delphi_mobile\Servidor\Unit1.dfm=D:\projetos-delphi\99_CODERS\semana_delphi_mobile\Servidor\DataModules\DataModule.Global.dfm</Transaction>
+    <Transaction>2023/10/21 17:03:47.000.232,D:\projetos-delphi\99_CODERS\semana_delphi_mobile\Servidor\Unit1.pas=D:\projetos-delphi\99_CODERS\semana_delphi_mobile\Servidor\DataModules\DataModule.Global.pas</Transaction>
+  </Transactions>
+</BorlandProject>

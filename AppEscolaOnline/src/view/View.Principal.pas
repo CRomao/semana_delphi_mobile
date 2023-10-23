@@ -8,7 +8,7 @@ uses
   FMX.Controls.Presentation, FMX.StdCtrls, FMX.Objects, FMX.TabControl,
   FMX.ListView.Types, FMX.ListView.Appearances, FMX.ListView.Adapters.Base,
   FMX.ListView, System.ImageList, FMX.ImgList, FMX.Calendar, FMX.Layouts,
-  FMX.ListBox, Provider.Loading;
+  FMX.ListBox, Provider.Loading, FMX.Memo.Types, FMX.ScrollBox, FMX.Memo, Provider.Functions;
 
 type
   TViewPrincipal = class(TForm)
@@ -32,7 +32,7 @@ type
     Image1: TImage;
     ltvSocial: TListView;
     imgList: TImageList;
-    img1: TImage;
+    imgNovaMensagem: TImage;
     ltvBoletim: TListView;
     calCalendario: TCalendar;
     rctDia: TRectangle;
@@ -47,16 +47,37 @@ type
     Label2: TLabel;
     Image3: TImage;
     Line2: TLine;
-    ListBoxItem3: TListBoxItem;
+    lbiSair: TListBoxItem;
     Label3: TLabel;
     Image4: TImage;
     Line3: TLine;
+    rctSombra: TRectangle;
+    layMensagem: TLayout;
+    rctMensagem: TRectangle;
+    lblCPF: TLabel;
+    rctAcessar: TRectangle;
+    btnEnviar: TSpeedButton;
+    mmoMensagem: TMemo;
+    btnFecharMensagem: TSpeedButton;
+    imgAtualizarRedeSocial: TImage;
     procedure imgHomeClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure calCalendarioDateSelected(Sender: TObject);
+    procedure imgNovaMensagemTap(Sender: TObject; const Point: TPointF);
+    procedure btnFecharMensagemTap(Sender: TObject; const Point: TPointF);
+    procedure imgAtualizarRedeSocialTap(Sender: TObject; const Point: TPointF);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure lbiSairTap(Sender: TObject; const Point: TPointF);
+    procedure lbiSairClick(Sender: TObject);
+    procedure btnEnviarClick(Sender: TObject);
+    procedure imgNovaMensagemClick(Sender: TObject);
+    procedure ltvSocialUpdateObjects(const Sender: TObject;
+      const AItem: TListViewItem);
+    procedure imgAtualizarRedeSocialClick(Sender: TObject);
   private
     procedure MudarAba(img: TImage);
-    procedure AddMensagem(idMensagem: Integer; nome, data, mensagem: string; qtdLike, qtdComentario: integer);
+    procedure AddMensagem(idMensagem: Integer; nome, data,
+mensagem: string; qtdLike, qtdComentario: integer; msg_topo: Boolean = False);
     procedure ListarMensagens;
     procedure AddBoletim(disciplina: string; nota: Double; faltas: integer);
     procedure ListarBoletim;
@@ -65,6 +86,7 @@ type
     procedure TerminateMensagens(Sender: TObject);
     procedure TerminateBoletim(Sender: TObject);
     procedure TerminateCalendario(Sender: TObject);
+    procedure LayoutMensagem(item: TListViewItem);
     { Private declarations }
   public
     { Public declarations }
@@ -129,19 +151,23 @@ begin
   TListItemText(item.Objects.FindDrawable('txtHora')).Text:= hora;
 end;
 
-procedure TViewPrincipal.AddMensagem(idMensagem: Integer; nome, data, mensagem: string; qtdLike, qtdComentario: integer);
+procedure TViewPrincipal.AddMensagem(idMensagem: Integer; nome, data,
+mensagem: string; qtdLike, qtdComentario: integer; msg_topo: Boolean = False);
 var
   item: TListViewItem;
 begin
-  item:= ltvSocial.Items.Add;
+  if msg_topo then
+    item:= ltvSocial.Items.AddItem(0)
+  else
+    item:= ltvSocial.Items.Add;
 
   item.Tag:= idMensagem;
 
   TListItemText(item.Objects.FindDrawable('txtNome')).Text:= nome;
-  TListItemText(item.Objects.FindDrawable('txtData')).Text:= data;
+  TListItemText(item.Objects.FindDrawable('txtData')).Text:= Copy(data, 1,5) + ' ' + Copy(data, 12, 5);
   TListItemText(item.Objects.FindDrawable('txtMensagem')).Text:= mensagem;
-  TListItemText(item.Objects.FindDrawable('txtLike')).Text:= FormatFloat('#,##', qtdLike);
-  TListItemText(item.Objects.FindDrawable('txtComentario')).Text:= FormatFloat('#,##', qtdComentario);
+  TListItemText(item.Objects.FindDrawable('txtLike')).Text:= FormatFloat('#,##0', qtdLike);
+  TListItemText(item.Objects.FindDrawable('txtComentario')).Text:= FormatFloat('#,##0', qtdComentario);
 
   with imgList.Source do
   begin
@@ -149,6 +175,63 @@ begin
     TListItemImage(item.Objects.FindDrawable('imgLike')).Bitmap:= Items[1].MultiResBitmap.ItemByScale(1, True, true).Bitmap;
     TListItemImage(item.Objects.FindDrawable('imgComentario')).Bitmap:= Items[2].MultiResBitmap.ItemByScale(1, True, true).Bitmap;
   end;
+
+  LayoutMensagem(item);
+end;
+
+procedure TViewPrincipal.LayoutMensagem(item: TListViewItem);
+var
+  txt: TListItemText;
+begin
+  txt:= TListItemText(item.Objects.FindDrawable('txtMensagem'));
+  txt.Width:= ltvSocial.Width - 64;
+  txt.Height:= GetTextHeight(txt, txt.Width, txt.text);
+
+  TListItemText(item.Objects.FindDrawable('txtLike')).PlaceOffset.Y:= txt.PlaceOffset.Y + txt.Height;
+  TListItemText(item.Objects.FindDrawable('txtComentario')).PlaceOffset.Y:= txt.PlaceOffset.Y + txt.Height;
+  TListItemImage(item.Objects.FindDrawable('imgLike')).PlaceOffset.Y:= txt.PlaceOffset.Y + txt.Height;
+  TListItemImage(item.Objects.FindDrawable('imgComentario')).PlaceOffset.Y:= txt.PlaceOffset.Y + txt.Height;
+
+  item.Height:= Trunc(txt.PlaceOffset.Y + txt.Height + 25);
+end;
+
+procedure TViewPrincipal.btnEnviarClick(Sender: TObject);
+var
+  t: TThread;
+begin
+  TLoading.Show(ViewPrincipal, '');
+  ltvBoletim.BeginUpdate;
+
+  t:= TThread.CreateAnonymousThread(procedure
+  begin
+    ProviderConnection.EnviarMensagem(TSession.ID_USUARIO, mmoMensagem.Text);
+
+    TThread.Synchronize(TThread.CurrentThread, procedure
+    begin
+      with ProviderConnection do
+      begin
+        AddMensagem(ProviderConnection.fmtMensagens.FieldByName('id_mensagem').AsInteger,
+                    TSession.NOME,
+                    FormatDateTime('dd/mm/yyyy hh:mm:ss', now),
+                    mmoMensagem.Text,
+                    0,
+                    0,
+                    True);
+
+        mmoMensagem.Text:= '';
+        layMensagem.Visible:= False;
+      end;
+    end);
+  end);
+
+  t.OnTerminate:= TerminateMensagens;
+  t.Start;
+end;
+
+procedure TViewPrincipal.btnFecharMensagemTap(Sender: TObject;
+  const Point: TPointF);
+begin
+  layMensagem.Visible:= False;
 end;
 
 procedure TViewPrincipal.AddBoletim(disciplina: string; nota: Double; faltas: integer);
@@ -175,7 +258,7 @@ begin
   t:= TThread.CreateAnonymousThread(procedure
   begin
     //Sincronizar alterações visuais para o usuário na TThread principal;
-    ProviderConnection.ListarBoletim(TSession.ID_USUARIO);
+    ProviderConnection.ListarBoletim(TSession.ID_USUARIO, '');
 
     while not ProviderConnection.fmtBoletim.Eof do
     begin
@@ -185,7 +268,7 @@ begin
         begin
           AddBoletim(fmtBoletim.FieldByName('disciplina').AsString,
                 fmtBoletim.FieldByName('nota').AsFloat,
-                fmtBoletim.FieldByName('faltas').AsInteger);
+                fmtBoletim.FieldByName('qtd_falta').AsInteger);
         end;
       end);
       ProviderConnection.fmtBoletim.Next;
@@ -215,12 +298,12 @@ begin
       begin
         with ProviderConnection do
         begin
-          AddMensagem(fmtMensagens.FieldByName('id').AsInteger,
+          AddMensagem(fmtMensagens.FieldByName('id_mensagem').AsInteger,
                 fmtMensagens.FieldByName('nome').AsString,
-                fmtMensagens.FieldByName('dt').AsString,
-                fmtMensagens.FieldByName('msg').AsString,
-                fmtMensagens.FieldByName('like').AsInteger,
-                fmtMensagens.FieldByName('comentario').AsInteger);
+                UTCtoDateBR(fmtMensagens.FieldByName('dt_geracao').AsString),
+                fmtMensagens.FieldByName('mensagem').AsString,
+                fmtMensagens.FieldByName('qtd_like').AsInteger,
+                fmtMensagens.FieldByName('qtd_comentario').AsInteger);
         end;
       end);
       ProviderConnection.fmtMensagens.Next;
@@ -229,6 +312,12 @@ begin
 
   t.OnTerminate:= TerminateMensagens;
   t.Start;
+end;
+
+procedure TViewPrincipal.ltvSocialUpdateObjects(const Sender: TObject;
+  const AItem: TListViewItem);
+begin
+  LayoutMensagem(AItem);
 end;
 
 procedure TViewPrincipal.TerminateMensagens(Sender: TObject);
@@ -279,14 +368,67 @@ begin
     ListarCalendario(calCalendario.Date);
 end;
 
+procedure TViewPrincipal.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  Action:= TCloseAction.caFree;
+  ViewPrincipal:= nil;
+end;
+
 procedure TViewPrincipal.FormShow(Sender: TObject);
 begin
+  layMensagem.Visible:= False;
+  ltvSocial.Items.Clear;
+  ltvBoletim.Items.Clear;
+  ltvCalendario.Items.Clear;
+
+  imgNovaMensagem.Visible:= TSession.TIPO_USUARIO = 'A';
+
   MudarAba(imgHome);
+end;
+
+procedure TViewPrincipal.imgAtualizarRedeSocialClick(Sender: TObject);
+begin
+  ListarMensagens;
+end;
+
+procedure TViewPrincipal.imgAtualizarRedeSocialTap(Sender: TObject;
+  const Point: TPointF);
+begin
+  ListarMensagens;
 end;
 
 procedure TViewPrincipal.imgHomeClick(Sender: TObject);
 begin
   MudarAba(TImage(Sender));
+end;
+
+procedure TViewPrincipal.imgNovaMensagemClick(Sender: TObject);
+begin
+  mmoMensagem.Text:= '';
+  layMensagem.Visible:= True;
+end;
+
+procedure TViewPrincipal.imgNovaMensagemTap(Sender: TObject;
+  const Point: TPointF);
+begin
+  mmoMensagem.Text:= '';
+  layMensagem.Visible:= True;
+end;
+
+procedure TViewPrincipal.lbiSairClick(Sender: TObject);
+begin
+  TSession.ID_USUARIO:= 0;
+  TSession.NOME:= '';
+
+  Close;
+end;
+
+procedure TViewPrincipal.lbiSairTap(Sender: TObject; const Point: TPointF);
+begin
+  TSession.ID_USUARIO:= 0;
+  TSession.NOME:= '';
+
+  Close;
 end;
 
 end.

@@ -8,7 +8,8 @@ uses
   View.Principal in 'src\view\View.Principal.pas' {ViewPrincipal},
   Provider.Loading in 'src\providers\Provider.Loading.pas',
   Provider.Connection in 'src\providers\Provider.Connection.pas' {ProviderConnection: TDataModule},
-  Provider.Session in 'src\providers\Provider.Session.pas';
+  Provider.Session in 'src\providers\Provider.Session.pas',
+  Provider.Functions in 'src\providers\Provider.Functions.pas';
 
 {$R *.res}
 

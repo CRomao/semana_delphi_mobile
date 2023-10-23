@@ -9,20 +9,22 @@
     <Transaction>2023/10/17 18:57:30.000.720,=C:\Users\Romao\Documents\Embarcadero\Studio\Projects\Unit3.pas</Transaction>
     <Transaction>2023/10/17 18:58:07.000.939,D:\projetos-delphi\99_CODERS\semana_delphi_mobile\AppEscolaOnline\EscolaOnline.dproj=C:\Users\Romao\Documents\Embarcadero\Studio\Projects\Project3.dproj</Transaction>
     <Transaction>2023/10/17 20:50:22.000.882,=D:\projetos-delphi\99_CODERS\semana_delphi_mobile\AppEscolaOnline\Unit1.pas</Transaction>
-    <Transaction>2023/10/17 20:50:38.000.420,D:\projetos-delphi\99_CODERS\semana_delphi_mobile\AppEscolaOnline\Unit1.pas=D:\projetos-delphi\99_CODERS\semana_delphi_mobile\AppEscolaOnline\src\view\View.Login.pas</Transaction>
     <Transaction>2023/10/17 20:50:38.000.420,D:\projetos-delphi\99_CODERS\semana_delphi_mobile\AppEscolaOnline\Unit1.fmx=D:\projetos-delphi\99_CODERS\semana_delphi_mobile\AppEscolaOnline\src\view\View.Login.fmx</Transaction>
+    <Transaction>2023/10/17 20:50:38.000.420,D:\projetos-delphi\99_CODERS\semana_delphi_mobile\AppEscolaOnline\Unit1.pas=D:\projetos-delphi\99_CODERS\semana_delphi_mobile\AppEscolaOnline\src\view\View.Login.pas</Transaction>
     <Transaction>2023/10/17 21:04:52.000.150,=D:\projetos-delphi\99_CODERS\semana_delphi_mobile\AppEscolaOnline\Unit1.pas</Transaction>
     <Transaction>2023/10/17 21:05:25.000.929,D:\projetos-delphi\99_CODERS\semana_delphi_mobile\AppEscolaOnline\Unit1.fmx=D:\projetos-delphi\99_CODERS\semana_delphi_mobile\AppEscolaOnline\src\view\View.AlunoSelecao.fmx</Transaction>
     <Transaction>2023/10/17 21:05:25.000.929,D:\projetos-delphi\99_CODERS\semana_delphi_mobile\AppEscolaOnline\Unit1.pas=D:\projetos-delphi\99_CODERS\semana_delphi_mobile\AppEscolaOnline\src\view\View.AlunoSelecao.pas</Transaction>
     <Transaction>2023/10/17 21:16:27.000.605,=D:\projetos-delphi\99_CODERS\semana_delphi_mobile\AppEscolaOnline\Unit1.pas</Transaction>
     <Transaction>2023/10/17 21:16:58.000.123,D:\projetos-delphi\99_CODERS\semana_delphi_mobile\AppEscolaOnline\Unit1.fmx=D:\projetos-delphi\99_CODERS\semana_delphi_mobile\AppEscolaOnline\src\view\View.Principal.fmx</Transaction>
     <Transaction>2023/10/17 21:16:58.000.123,D:\projetos-delphi\99_CODERS\semana_delphi_mobile\AppEscolaOnline\Unit1.pas=D:\projetos-delphi\99_CODERS\semana_delphi_mobile\AppEscolaOnline\src\view\View.Principal.pas</Transaction>
-    <Transaction>2023/10/18 20:25:45.299,=D:\projetos-delphi\99_CODERS\semana_delphi_mobile\AppEscolaOnline\src\providers\Provider.Loading.pas</Transaction>
-    <Transaction>2023/10/18 20:37:08.276,=D:\projetos-delphi\99_CODERS\semana_delphi_mobile\AppEscolaOnline\Unit1.pas</Transaction>
-    <Transaction>2023/10/18 20:38:08.769,D:\projetos-delphi\99_CODERS\semana_delphi_mobile\AppEscolaOnline\src\providers\Provider.Connection.dfm=D:\projetos-delphi\99_CODERS\semana_delphi_mobile\AppEscolaOnline\Unit1.dfm</Transaction>
-    <Transaction>2023/10/18 20:38:08.769,D:\projetos-delphi\99_CODERS\semana_delphi_mobile\AppEscolaOnline\src\providers\Provider.Connection.pas=D:\projetos-delphi\99_CODERS\semana_delphi_mobile\AppEscolaOnline\Unit1.pas</Transaction>
-    <Transaction>2023/10/18 20:53:59.704,=D:\projetos-delphi\99_CODERS\semana_delphi_mobile\AppEscolaOnline\src\providers\Provider.Connection.pas</Transaction>
-    <Transaction>2023/10/18 21:55:20.775,=D:\projetos-delphi\99_CODERS\semana_delphi_mobile\AppEscolaOnline\Unit1.pas</Transaction>
-    <Transaction>2023/10/18 21:55:31.363,D:\projetos-delphi\99_CODERS\semana_delphi_mobile\AppEscolaOnline\src\providers\Provider.Session.pas=D:\projetos-delphi\99_CODERS\semana_delphi_mobile\AppEscolaOnline\Unit1.pas</Transaction>
+    <Transaction>2023/10/18 20:25:45.000.299,=D:\projetos-delphi\99_CODERS\semana_delphi_mobile\AppEscolaOnline\src\providers\Provider.Loading.pas</Transaction>
+    <Transaction>2023/10/18 20:37:08.000.276,=D:\projetos-delphi\99_CODERS\semana_delphi_mobile\AppEscolaOnline\Unit1.pas</Transaction>
+    <Transaction>2023/10/18 20:38:08.000.769,D:\projetos-delphi\99_CODERS\semana_delphi_mobile\AppEscolaOnline\src\providers\Provider.Connection.dfm=D:\projetos-delphi\99_CODERS\semana_delphi_mobile\AppEscolaOnline\Unit1.dfm</Transaction>
+    <Transaction>2023/10/18 20:38:08.000.769,D:\projetos-delphi\99_CODERS\semana_delphi_mobile\AppEscolaOnline\src\providers\Provider.Connection.pas=D:\projetos-delphi\99_CODERS\semana_delphi_mobile\AppEscolaOnline\Unit1.pas</Transaction>
+    <Transaction>2023/10/18 20:53:59.000.704,=D:\projetos-delphi\99_CODERS\semana_delphi_mobile\AppEscolaOnline\src\providers\Provider.Connection.pas</Transaction>
+    <Transaction>2023/10/18 21:55:20.000.775,=D:\projetos-delphi\99_CODERS\semana_delphi_mobile\AppEscolaOnline\Unit1.pas</Transaction>
+    <Transaction>2023/10/18 21:55:31.000.363,D:\projetos-delphi\99_CODERS\semana_delphi_mobile\AppEscolaOnline\src\providers\Provider.Session.pas=D:\projetos-delphi\99_CODERS\semana_delphi_mobile\AppEscolaOnline\Unit1.pas</Transaction>
+    <Transaction>2023/10/22 21:44:53.356,=D:\projetos-delphi\99_CODERS\semana_delphi_mobile\AppEscolaOnline\src\providers\uFunctions.pas</Transaction>
+    <Transaction>2023/10/22 21:45:04.111,D:\projetos-delphi\99_CODERS\semana_delphi_mobile\AppEscolaOnline\src\providers\Provider.Functions.pas=D:\projetos-delphi\99_CODERS\semana_delphi_mobile\AppEscolaOnline\src\providers\uFunctions.pas</Transaction>
   </Transactions>
 </BorlandProject>

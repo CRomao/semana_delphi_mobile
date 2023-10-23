@@ -1,0 +1,113 @@
+create table TAB_USUARIO(
+    ID_USUARIO    INTEGER PRIMARY KEY AUTOINCREMENT,
+    NOME          VARCHAR(100),
+    CPF           VARCHAR(100),
+    SENHA         VARCHAR(100),
+    TIPO_USUARIO  CHAR(1)  /* A = ALUNO     R = RESPONSAVEL */
+);
+
+
+create table TAB_USUARIO_RESPONSAVEL(
+    ID_RESPONSAVEL    INTEGER,
+    ID_USUARIO        INTEGER,
+    PRIMARY KEY(ID_RESPONSAVEL, ID_USUARIO)
+);
+
+
+create table TAB_SOCIAL(
+    ID_MENSAGEM    INTEGER PRIMARY KEY AUTOINCREMENT,
+    DT_GERACAO     DATETIME,
+    ID_USUARIO     INTEGER,
+    QTD_LIKE       INTEGER,
+    QTD_COMENTARIO INTEGER,
+    MENSAGEM       VARCHAR(500)
+);
+
+
+create table TAB_BOLETIM(
+    ID_BOLETIM    INTEGER PRIMARY KEY AUTOINCREMENT,
+    ID_USUARIO    INTEGER,
+    DISCIPLINA    VARCHAR(50),
+    PERIODO       VARCHAR(50),   /*  EX: 01/2023  --->  BIMESTRE + ANO */
+    NOTA          DECIMAL(12,8),
+    QTD_FALTA     INTEGER
+);
+
+
+create table TAB_CALENDARIO(
+    ID_CALENDARIO    INTEGER PRIMARY KEY AUTOINCREMENT,
+    ID_USUARIO       INTEGER, /* CASO FOR ID_USUARIO = 0 --> MENSAGEM PARA TODOS  */
+    DESCRICAO        VARCHAR(100),
+    DT_EVENTO        DATETIME,
+    HORA             VARCHAR(5)
+);
+
+
+/*---------------------------------------------------------------*/
+
+
+
+insert into TAB_USUARIO(NOME, CPF, SENHA, TIPO_USUARIO)
+values('Heber Stein Mazutti', '00000000000', '12345', 'R');
+
+insert into TAB_USUARIO(NOME, CPF, SENHA, TIPO_USUARIO)
+values('João Mazutti', '11111111111', '12345', 'A');
+
+insert into TAB_USUARIO(NOME, CPF, SENHA, TIPO_USUARIO)
+values('Maria Mazutti', '22222222222', '12345', 'A');
+
+
+
+insert into TAB_USUARIO_RESPONSAVEL(ID_RESPONSAVEL, ID_USUARIO) values(1, 2);
+insert into TAB_USUARIO_RESPONSAVEL(ID_RESPONSAVEL, ID_USUARIO) values(1, 3);
+
+insert into TAB_SOCIAL(DT_GERACAO, ID_USUARIO, QTD_LIKE, QTD_COMENTARIO, MENSAGEM)
+values(datetime(), 2, 18, 21, 'Não vejo a hora de chegar as férias!!!!');
+
+insert into TAB_SOCIAL(DT_GERACAO, ID_USUARIO, QTD_LIKE, QTD_COMENTARIO, MENSAGEM)
+values(datetime(), 2, 7, 21, 'Já vai chegar as férias... uhuuuu');
+
+insert into TAB_SOCIAL(DT_GERACAO, ID_USUARIO, QTD_LIKE, QTD_COMENTARIO, MENSAGEM)
+values(datetime(), 3, 49, 114, 'Está chegando a nossa competição anual de Inter Classes. Façam suas inscrições...');
+
+insert into TAB_SOCIAL(DT_GERACAO, ID_USUARIO, QTD_LIKE, QTD_COMENTARIO, MENSAGEM)
+values(datetime(), 3, 2, 7, 'Cade as férias? Não chega!');
+
+
+insert into TAB_BOLETIM(ID_USUARIO, DISCIPLINA, PERIODO, NOTA, QTD_FALTA)
+values(2, 'Língua Portuguesa', '03-2023', 8.5, 2);
+
+insert into TAB_BOLETIM(ID_USUARIO, DISCIPLINA, PERIODO, NOTA, QTD_FALTA)
+values(2, 'Matemática', '03-2023', 3.5, 2);
+
+insert into TAB_BOLETIM(ID_USUARIO, DISCIPLINA, PERIODO, NOTA, QTD_FALTA)
+values(2, 'História', '03-2023', 10, 1);
+
+insert into TAB_BOLETIM(ID_USUARIO, DISCIPLINA, PERIODO, NOTA, QTD_FALTA)
+values(2, 'Geografia', '03-2023', 9.5, 3);
+
+insert into TAB_BOLETIM(ID_USUARIO, DISCIPLINA, PERIODO, NOTA, QTD_FALTA)
+values(2, 'Inglês', '03-2023', 7, 4);
+
+insert into TAB_BOLETIM(ID_USUARIO, DISCIPLINA, PERIODO, NOTA, QTD_FALTA)
+values(2, 'Educação Artística', '03-2023', 6.5, 1);
+
+insert into TAB_BOLETIM(ID_USUARIO, DISCIPLINA, PERIODO, NOTA, QTD_FALTA)
+values(2, 'Ciências', '03-2023', 8, 0);
+
+
+insert into TAB_CALENDARIO(DESCRICAO, ID_USUARIO, DT_EVENTO, HORA)
+values('Reunião dos pais e professores', 0, '2023-10-25', '08:30');
+
+insert into TAB_CALENDARIO(DESCRICAO, ID_USUARIO, DT_EVENTO, HORA)
+values('Abertura do Inter Classes', 0, '2023-10-25', '14:00');
+
+insert into TAB_CALENDARIO(DESCRICAO, ID_USUARIO, DT_EVENTO, HORA)
+values('Feriado - Não tem aula', 0, '2023-10-12', '');
+
+insert into TAB_CALENDARIO(DESCRICAO, ID_USUARIO, DT_EVENTO, HORA)
+values('Reunião com diretora', 2, '2023-10-13', '09:00');
+
+
+
+

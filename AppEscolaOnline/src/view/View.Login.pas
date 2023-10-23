@@ -6,7 +6,7 @@ uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Objects,
   FMX.Layouts, FMX.Edit, FMX.Controls.Presentation, FMX.StdCtrls, View.AlunoSelecao,
-  Provider.Connection, Provider.Loading, Provider.Session;
+  Provider.Connection, Provider.Loading, Provider.Session, View.Principal;
 
 type
   TViewLogin = class(TForm)
@@ -45,9 +45,21 @@ begin
     //Sincronizar alterações visuais para o usuário na TThread principal;
     ProviderConnection.Login(edtCPF.Text, edtSenha.Text);
 
-    TSession.ID_USUARIO:= ProviderConnection.fmtUsuario.FieldByName('id_usuario').AsInteger;
+
     TSession.NOME:= ProviderConnection.fmtUsuario.FieldByName('nome').AsString;
-    TSession.EMAIL:= ProviderConnection.fmtUsuario.FieldByName('email').AsString;
+    TSession.TIPO_USUARIO:= ProviderConnection.fmtUsuario.FieldByName('tipo_usuario').AsString;
+
+    if TSession.TIPO_USUARIO = 'A' then
+    begin
+      TSession.ID_USUARIO:= ProviderConnection.fmtUsuario.FieldByName('id_usuario').AsInteger;
+      TSession.ID_RESPONSAVEL:= 0;
+    end
+    else
+    begin
+      TSession.ID_USUARIO:= 0;
+      TSession.ID_RESPONSAVEL:= ProviderConnection.fmtUsuario.FieldByName('id_usuario').AsInteger;
+    end
+
   end);
 
   t.OnTerminate:= TerminateLogin;
@@ -65,12 +77,23 @@ begin
       exit;
     end;
 
-  //se login for valido, cria o form de selecao
-  if not Assigned(ViewAlunoSelecao) then
-    Application.CreateForm(TViewAlunoSelecao, ViewAlunoSelecao);
 
-  ViewAlunoSelecao.Show;
-  TLoading.ToastMessage(ViewAlunoSelecao, 'Bem-vindo '+TSession.NOME, TAlignLayout.Bottom, $FF6A5AE0, $FFFFFFFF, 2);
+  if TSession.TIPO_USUARIO = 'R' then
+  begin
+    if not Assigned(ViewAlunoSelecao) then
+      Application.CreateForm(TViewAlunoSelecao, ViewAlunoSelecao);
+
+    ViewAlunoSelecao.Show;
+    TLoading.ToastMessage(ViewAlunoSelecao, 'Bem-vindo '+TSession.NOME, TAlignLayout.Bottom, $FF6A5AE0, $FFFFFFFF, 2);
+  end
+  else
+  begin
+    if not Assigned(ViewAlunoSelecao) then
+      Application.CreateForm(TViewPrincipal, ViewPrincipal);
+
+    ViewPrincipal.Show;
+    TLoading.ToastMessage(ViewPrincipal, 'Bem-vindo '+TSession.NOME, TAlignLayout.Bottom, $FF6A5AE0, $FFFFFFFF, 2);
+  end;
 end;
 
 

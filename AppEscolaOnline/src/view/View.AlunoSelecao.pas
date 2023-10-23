@@ -7,7 +7,7 @@ uses
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Objects,
   FMX.Controls.Presentation, FMX.StdCtrls, FMX.ListView.Types,
   FMX.ListView.Appearances, FMX.ListView.Adapters.Base, FMX.ListView, View.Principal,
-  Provider.Loading, Provider.Connection;
+  Provider.Loading, Provider.Connection, Provider.Session;
 
 type
   TViewAlunoSelecao = class(TForm)
@@ -39,6 +39,9 @@ begin
   if not Assigned(ViewPrincipal) then
     Application.CreateForm(TViewPrincipal, ViewPrincipal);
 
+  TSession.ID_USUARIO:= AItem.tag;
+  TSession.NOME:= AItem.Text;
+
   ViewPrincipal.Show;
 
 end;
@@ -59,7 +62,7 @@ begin
   t:= TThread.CreateAnonymousThread(procedure
   begin
     //Sincronizar alterações visuais para o usuário na TThread principal;
-    ProviderConnection.ListarAlunos(1);
+    ProviderConnection.ListarAlunos(TSession.ID_RESPONSAVEL);
 
     while not ProviderConnection.fmtAluno.Eof do
     begin
@@ -67,7 +70,7 @@ begin
       begin
         with ProviderConnection do
         begin
-          AddAluno(fmtAluno.FieldByName('id_aluno').AsInteger, fmtAluno.FieldByName('nome').AsString);
+          AddAluno(fmtAluno.FieldByName('id_usuario').AsInteger, fmtAluno.FieldByName('nome').AsString);
         end;
       end);
       ProviderConnection.fmtAluno.Next;

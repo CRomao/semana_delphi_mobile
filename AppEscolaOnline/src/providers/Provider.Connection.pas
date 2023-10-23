@@ -6,7 +6,9 @@ uses
   System.SysUtils, System.Classes, DataSet.Serialize, DataSet.Serialize.Config,
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
-  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client;
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
+  RESTRequest4D, DataSet.Serialize.Adapter.RESTRequest4D, System.JSON,
+  RESTRequest4D.Response.Contract;
 
 type
   TProviderConnection = class(TDataModule)
@@ -16,19 +18,23 @@ type
     fmtUsuario: TFDMemTable;
     fmtAluno: TFDMemTable;
     procedure DataModuleCreate(Sender: TObject);
-  private        
+  private  
     { Private declarations }
   public
     { Public declarations }
     procedure ListarMensagens(idUsuario: integer);
-    procedure ListarBoletim(idUsuario: integer);
+    procedure ListarBoletim(idUsuario: integer; periodo: string);
     procedure ListarCalendario(idUsuario: integer; data: TDate);
     procedure ListarAlunos(idUsuario: integer);
     procedure Login(cpf, senha: string);
+    procedure EnviarMensagem(idUsuario: Integer; mensagem: string);        
   end;
 
 var
   ProviderConnection: TProviderConnection;
+
+const
+  BASE_URL = 'http://localhost:9000';
 
 implementation
 
@@ -38,66 +44,49 @@ implementation
 
 procedure TProviderConnection.ListarMensagens(idUsuario: integer);
 var
-  json: string;
-  i: integer;
+  resp: IResponse;
 begin
-  //buscar dados via GET do servidor;
+  resp:= TRequest.New.BaseURL(BASE_URL)
+                     .Resource('/social')
+                     .Accept('application/json')
+                     .AddParam('id_usuario', idUsuario.ToString)
+                     .Adapters(TDataSetSerializeAdapter.New(fmtMensagens))
+                     .Get;
 
-  Sleep(1500);
-  json:= '[';
-
-  for i := 1 to 10 do
-  begin
-    json:= json + '{"id": 1, "dt": "15/06 8h", "nome": "Professor João Marcos", "like": 280, "comentario": 18, "msg": "Torneio de programação na escola!"},';
-    json:= json + '{"id": 2, "dt": "15/06 10h", "nome": "Cicero Romão", "like": 500, "comentario": 188, "msg": "Aprendendo programação mobile Delphi!"},';
-  end;
-
-  json:= json + '{"id": 3, "dt": "15/06 8h", "nome": "José Rodrigues", "like": 280, "comentario": 18, "msg": "Torneio de programação na escola!"}';
-  json:= json + ']';
-
-  fmtMensagens.FieldDefs.Clear;
-  fmtMensagens.LoadfromJSON(json);
-
+  if resp.StatusCode <> 200 then
+    raise Exception.Create(resp.Content);
 end;
 
-procedure TProviderConnection.ListarBoletim(idUsuario: integer);
+procedure TProviderConnection.ListarBoletim(idUsuario: integer; periodo: string);
 var
-  json: string;
-  i: integer;
+  resp: IResponse;
 begin
-  //buscar dados via GET do servidor;
+  resp:= TRequest.New.BaseURL(BASE_URL)
+                     .Resource('/boletim')
+                     .Accept('application/json')
+                     .AddParam('id_usuario', idUsuario.ToString)
+                     .AddParam('periodo', periodo)                     
+                     .Adapters(TDataSetSerializeAdapter.New(fmtBoletim))
+                     .Get;
 
-  Sleep(1500);
-  json:= '[';
-  json:= json + '{"disciplina": "Língua Portuguesa", "nota": 8.5, "faltas": 2},';
-  json:= json + '{"disciplina": "Matemática", "nota": 9.5, "faltas": 2},';
-  json:= json + '{"disciplina": "História", "nota": 7, "faltas": 6},';
-  json:= json + '{"disciplina": "Geografia", "nota": 6.5, "faltas": 5},';
-  json:= json + '{"disciplina": "Inglês", "nota": 8, "faltas": 2},';
-  json:= json + '{"disciplina": "Educação Artística", "nota": 8.5, "faltas": 0},';
-  json:= json + '{"disciplina": "Ciências", "nota": 4, "faltas": 1}';
-  json:= json + ']';
-
-  fmtBoletim.FieldDefs.Clear;
-  fmtBoletim.LoadFromJSON(json);
+  if resp.StatusCode <> 200 then
+    raise Exception.Create(resp.Content);
 end;
 
 procedure TProviderConnection.ListarCalendario(idUsuario: integer; data: TDate);
 var
-  json: string;
-  i: integer;
+  resp: IResponse;
 begin
-  //buscar dados via GET do servidor;
+  resp:= TRequest.New.BaseURL(BASE_URL)
+                     .Resource('/calendario')
+                     .Accept('application/json')
+                     .AddParam('id_usuario', idUsuario.ToString)
+                     .AddParam('dt', FormatDateTime('yyyy-mm-dd', data))                     
+                     .Adapters(TDataSetSerializeAdapter.New(fmtCalendario))
+                     .Get;
 
-  Sleep(1000);
-  json:= '[';
-  json:= json + '{"descricao": "Reunião dos pais e professores", "hora": "10:00h"},';
-  json:= json + '{"descricao": "Reunião dos pais e professores", "hora": "11:00h"},';
-  json:= json + '{"descricao": "Reunião dos pais e professores", "hora": "12:00h"}';
-  json:= json + ']';
-
-  fmtCalendario.FieldDefs.Clear;
-  fmtCalendario.LoadFromJSON(json);
+  if resp.StatusCode <> 200 then
+    raise Exception.Create(resp.Content);
 end;
 
 procedure TProviderConnection.DataModuleCreate(Sender: TObject);
@@ -108,38 +97,68 @@ end;
 
 procedure TProviderConnection.ListarAlunos(idUsuario: integer);
 var
-  json: string;
-  i: integer;
+  resp: IResponse;
 begin
-  //buscar dados via GET do servidor;
+  resp:= TRequest.New.BaseURL(BASE_URL)
+                     .Resource('/usuarios')
+                     .Accept('application/json')
+                     .AddParam('id_responsavel', idUsuario.ToString)
+                     .Adapters(TDataSetSerializeAdapter.New(fmtAluno))
+                     .Get;
 
-  Sleep(1000);
-  json:= '[';
-  json:= json + '{"id_aluno": 1, "nome": "Fernanda"},';
-  json:= json + '{"id_aluno": 2, "nome": "Natália"},';
-  json:= json + '{"id_aluno": 3, "nome": "Barbára"}';  
-  json:= json + ']';
+  if resp.StatusCode <> 200 then
+    raise Exception.Create(resp.Content);
 
-  fmtAluno.FieldDefs.Clear;
-  fmtAluno.LoadFromJSON(json);
 end;
 
 procedure TProviderConnection.Login(cpf, senha: string);
 var
-  json: string;
-  i: integer;
+  resp: IResponse;
+  json: TJSONObject;
 begin
-  //buscar dados via GET do servidor;
+  try
+    json:= TJSONObject.Create;
+    json.AddPair('cpf', cpf);
+    json.AddPair('senha', senha);
 
-  Sleep(1000);
+    resp:= TRequest.New.BaseURL(BASE_URL)
+                       .Resource('/usuarios/login')
+                       .Accept('application/json')
+                       .Adapters(TDataSetSerializeAdapter.New(fmtUsuario))
+                       .AddBody(json.ToJSON)
+                       .Post;
 
-  if senha = '12345' then
-    json:= json + '{"id_usuario": 1, "nome": "Cicero Romão Fernandes da Cruz", "email": "teste@teste.com.br"}'
-  else
-    raise Exception.Create('CPF ou senha inválida');
+    if resp.StatusCode <> 200 then
+      raise Exception.Create(resp.Content);
 
-  fmtUsuario.FieldDefs.Clear;
-  fmtUsuario.LoadFromJSON(json);
+  finally
+    json.DisposeOf;
+  end;
+end;
+
+procedure TProviderConnection.EnviarMensagem(idUsuario: Integer; mensagem: string);
+var
+  resp: IResponse;
+  json: TJSONObject;
+begin
+  try
+    json:= TJSONObject.Create;
+    json.AddPair('id_usuario', idUsuario.ToString);
+    json.AddPair('mensagem', mensagem);
+
+    resp:= TRequest.New.BaseURL(BASE_URL)
+                       .Resource('/social')
+                       .Accept('application/json')
+                       .Adapters(TDataSetSerializeAdapter.New(fmtMensagens))
+                       .AddBody(json.ToJSON)
+                       .Post;
+
+    if resp.StatusCode <> 201 then
+      raise Exception.Create(resp.Content);
+
+  finally
+    json.DisposeOf;
+  end;
 end;
 
 end.

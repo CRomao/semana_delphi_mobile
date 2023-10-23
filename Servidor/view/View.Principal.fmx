@@ -1,0 +1,24 @@
+object ViewPrincipal: TViewPrincipal
+  Left = 0
+  Top = 0
+  Caption = 'Form3'
+  ClientHeight = 202
+  ClientWidth = 359
+  Fill.Kind = Solid
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnShow = FormShow
+  DesignerMasterStyle = 0
+  object mmoLogs: TMemo
+    Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+    DataDetectorTypes = []
+    Align = Client
+    Size.Width = 359.000000000000000000
+    Size.Height = 202.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    Viewport.Width = 355.000000000000000000
+    Viewport.Height = 198.000000000000000000
+  end
+end
